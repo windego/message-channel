@@ -22,15 +22,14 @@
     <p id="p"></p>
     <div id="p2">
       iframe页面传过来的值:null
-
     </div>
 
   </div>
 </body>
 <script>
-  var channel = new MessageChannel()
-  var output = document.querySelector('.output')
-  var iframe = document.querySelector('iframe')
+  const channel = new MessageChannel()
+  const output = document.querySelector('.output')
+  const iframe = document.querySelector('iframe')
 
   // Wait for the iframe to load
   iframe.addEventListener('load', onLoad)

@@ -30,9 +30,7 @@ const handelToParent = () => {
   // localStorage.setItem('columnData', JSON.stringify(data))
 }
 
-window.addEventListener('message', onMessage)
-function onMessage(e) {
-  console.log('e =>  ', e)
+window.addEventListener('message', function onMessage(e) {
   console.log('e xxxxx=>  ', e.data)
   try {
     const { type, payload } = e.data || {}
@@ -50,7 +48,8 @@ function onMessage(e) {
   } catch (error) {
 
   }
-}
+})
+
 
 </script>
 
