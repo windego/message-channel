@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Channel messaging demo</title>
+  <link rel="stylesheet" href="" />
+  <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <h1>Channel messaging demo</h1>
+  <p class="output">My body</p>
+  <iframe name="iframe" src="http://172.20.10.2:5173" width="480" height="320"></iframe>
+  <div>
+    <button id="btn">发送数据</button>
+    <button id="btn2">调用方法</button>
+    <p id="p"></p>
+    <div id="p2">
+      iframe页面传过来的值:null
+
+    </div>
+
+  </div>
+</body>
+<script>
+  var channel = new MessageChannel()
+  var output = document.querySelector('.output')
+  var iframe = document.querySelector('iframe')
+
+  // Wait for the iframe to load
+  iframe.addEventListener('load', onLoad)
+
+
+  function postMsg(type, payload) {
+    iframe.contentWindow.postMessage({ type, payload }, '*')
+  }
+  let a = 1
+
+  function onLoad() {
+    console.log("onLoad");
+    // Listen for messages on port1
+    channel.port1.onmessage = onMessage
+    // Transfer port2 to the iframe
+    console.log(channel.port2)
+    // iframe.contentWindow.postMessage(122222222)
+    postMsg('data', { a })
+  }
+
+  // Handle messages received on port1
+  function onMessage(e) {
+    output.innerHTML = e.data
+  }
+  const btn = document.querySelector('#btn')
+  const btn2 = document.querySelector('#btn2')
+  const p = document.querySelector('#p')
+  const p2 = document.querySelector('#p2')
+  p.innerHTML = a
+
+  btn.onclick = function () {
+    console.log("发送数据", a)
+    a++
+    // localStorage.setItem('info', a)
+    // iframe.contentWindow.postMessage(a, '*',)
+    postMsg('data', { a })
+    p.innerHTML = a
+  }
+  btn2.onclick = function () {
+    console.log("调用方法")
+    postMsg('action', { name: 'ok' })
+
+  }
+
+
+  window.addEventListener('message', function (e) {
+    // 接受到父文档的消息后，广播给其他的同源页面
+    // localStorage.setItem('info', e.data)
+    console.log("父页面接受iframe消息", e);
+    p2.innerHTML = `iframe页面传过来的值:${e.data}`
+  })
+  window.addEventListener('storage', function (ev) {
+    console.log('ev =>  ', ev)
+    if (ev.key == 'info') {
+      console.log(123)
+      window.parent.postMessage(ev.newValue, '*')
+    }
+  })
+</script>
+
+</html>

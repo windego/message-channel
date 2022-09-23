@@ -1,0 +1,21 @@
+{
+  "name": "my-vue-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "naive-ui": "^2.33.3",
+    "unplugin-auto-import": "^0.11.2",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.0",
+    "unplugin-vue-components": "^0.22.7",
+    "vite": "^3.1.0"
+  }
+}
